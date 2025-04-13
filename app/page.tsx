@@ -1,7 +1,8 @@
-import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import UserInfo from "@/components/user-info";
 
 export default function Home() {
   return (
@@ -10,16 +11,26 @@ export default function Home() {
         <Link className="flex items-center justify-center" href="#">
           <span className="font-bold text-xl">SaleAI</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="#"
+          >
             Features
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="#"
+          >
             Pricing
           </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4"
+            href="#"
+          >
             About
           </Link>
+          <UserInfo />
         </nav>
       </header>
       <main className="flex-1">
@@ -32,8 +43,9 @@ export default function Home() {
                     AI-Powered Sales Support
                   </h1>
                   <p className="max-w-[600px] text-gray-500 md:text-xl">
-                    Upload your product documentation and let AI handle customer inquiries. Save time, reduce costs, and
-                    improve customer satisfaction.
+                    Upload your product documentation and let AI handle customer
+                    inquiries. Save time, reduce costs, and improve customer
+                    satisfaction.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -62,34 +74,44 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">How It Works</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  How It Works
+                </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our platform uses AI to understand your product documentation and provide accurate answers to your
-                  customers.
+                  Our platform uses AI to understand your product documentation
+                  and provide accurate answers to your customers.
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
               <div className="flex flex-col justify-center space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">1</div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+                  1
+                </div>
                 <h3 className="text-xl font-bold">Upload Documentation</h3>
                 <p className="text-gray-500">
-                  Upload your product manuals, FAQs, and other documentation in various formats (PDF, Excel, Word,
-                  etc.).
+                  Upload your product manuals, FAQs, and other documentation in
+                  various formats (PDF, Excel, Word, etc.).
                 </p>
               </div>
               <div className="flex flex-col justify-center space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">2</div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+                  2
+                </div>
                 <h3 className="text-xl font-bold">AI Processing</h3>
                 <p className="text-gray-500">
-                  Our AI analyzes your documents to understand your products and services in detail.
+                  Our AI analyzes your documents to understand your products and
+                  services in detail.
                 </p>
               </div>
               <div className="flex flex-col justify-center space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">3</div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+                  3
+                </div>
                 <h3 className="text-xl font-bold">Automated Responses</h3>
                 <p className="text-gray-500">
-                  When customers ask questions, the AI provides accurate, helpful responses based on your documentation.
+                  When customers ask questions, the AI provides accurate,
+                  helpful responses based on your documentation.
                 </p>
               </div>
             </div>
@@ -97,7 +119,9 @@ export default function Home() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6">
-        <p className="text-xs text-gray-500">© 2024 SaleAI. All rights reserved.</p>
+        <p className="text-xs text-gray-500">
+          © 2024 SaleAI. All rights reserved.
+        </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
@@ -108,5 +132,5 @@ export default function Home() {
         </nav>
       </footer>
     </div>
-  )
+  );
 }
