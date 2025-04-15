@@ -10,19 +10,25 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const UserInfo: React.FC = () => {
+const UserInfoDropdown: React.FC = () => {
   const { user, logout } = useAuth();
+
+  const pathname = usePathname();
 
   if (!user) {
     return null;
   }
 
-  const isLandingPage = window.location.pathname === "/";
+  const isLandingPage = pathname === "/";
+
+  console.log("User Info Dropdown", isLandingPage);
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button>{user.email ?? user.phone}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
@@ -30,7 +36,9 @@ const UserInfo: React.FC = () => {
         <DropdownMenuSeparator />
         {isLandingPage && (
           <DropdownMenuItem>
-            <a href="/dashboard">Go to Dashboard</a>
+            <Link className="w-full" href="/dashboard">
+              Go to Dashboard
+            </Link>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem onClick={logout} className="cursor-pointer">
@@ -41,4 +49,4 @@ const UserInfo: React.FC = () => {
   );
 };
 
-export default UserInfo;
+export default UserInfoDropdown;

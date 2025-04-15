@@ -20,37 +20,47 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/auth-context";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const { signup, loginWithGoogle, user } = useAuth();
   const router = useRouter();
-  const { login, loginWithGoogle, user } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      await login(email, password);
+    if (password !== confirmPassword) {
       toast({
-        title: "Login successful",
-        description: "Welcome back to SaleAI!",
+        title: "Passwords do not match",
+        description: "Please make sure both passwords are the same.",
+        variant: "destructive",
       });
-      router.push(redirectTo);
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await signup(email, password);
+      toast({
+        title: "Account created",
+        description: "Please check your email for a confirmation link.",
+      });
+
+      router.push("/login");
     } catch (error) {
       toast({
-        title: "Login failed",
+        title: "Signup failed",
         description:
           error instanceof Error
             ? error.message
-            : "Please check your credentials and try again.",
+            : "Please check your information and try again.",
         variant: "destructive",
       });
     } finally {
@@ -60,14 +70,15 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     try {
-      await loginWithGoogle(redirectTo);
+      await loginWithGoogle();
+      // No need for toast here as we're redirecting to Google
     } catch (error) {
       toast({
-        title: "Login failed",
+        title: "Signup failed",
         description:
           error instanceof Error
             ? error.message
-            : "There was an error logging in with Google.",
+            : "There was an error signing up with Google.",
         variant: "destructive",
       });
     }
@@ -83,6 +94,7 @@ export default function LoginPage() {
       </div>
     );
   }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-6">
@@ -95,9 +107,9 @@ export default function LoginPage() {
 
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="text-xl">Log in to your account</CardTitle>
+            <CardTitle className="text-xl">Create an account</CardTitle>
             <CardDescription>
-              Enter your email and password to access your dashboard
+              Enter your information to create your account
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -114,15 +126,7 @@ export default function LoginPage() {
                 />
               </div>
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/reset-password"
-                    className="text-xs text-primary hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -149,12 +153,41 @@ export default function LoginPage() {
                     </span>
                   </Button>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Password must be at least 6 characters long
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-muted-foreground" />
+                    )}
+                  </Button>
+                </div>
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : null}
-                Log in
+                Create account
               </Button>
             </form>
 
@@ -189,9 +222,9 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter>
             <p className="text-center text-sm text-muted-foreground w-full">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
-                Sign up
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary hover:underline">
+                Log in
               </Link>
             </p>
           </CardFooter>

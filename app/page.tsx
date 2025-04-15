@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import UserInfo from "@/components/user-info";
+import UserInfoDropdown from "@/components/user-info-dropdown";
 
 export default function Home() {
   return (
@@ -30,7 +30,7 @@ export default function Home() {
           >
             About
           </Link>
-          <UserInfo />
+          <UserInfoDropdown />
         </nav>
       </header>
       <main className="flex-1">
